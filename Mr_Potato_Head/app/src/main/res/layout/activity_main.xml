@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string body"
+                android:visibility="visible"
                 app:srcCompat="@drawable/body" />
 
             <ImageView
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageEars"
+                android:visibility="visible"
                 app:srcCompat="@drawable/ears" />
 
             <ImageView
@@ -45,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageHat"
+                android:visibility="visible"
                 app:srcCompat="@drawable/hat" />
 
             <ImageView
@@ -52,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageEyes"
+                android:visibility="visible"
                 app:srcCompat="@drawable/eyes" />
 
             <ImageView
@@ -59,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string Brows"
+                android:visibility="visible"
                 app:srcCompat="@drawable/eyebrows" />
 
             <ImageView
@@ -66,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageGlasses"
+                android:visibility="visible"
                 app:srcCompat="@drawable/glasses" />
 
             <ImageView
@@ -73,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageMouth"
+                android:visibility="visible"
                 app:srcCompat="@drawable/mouth" />
 
             <ImageView
@@ -80,6 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageMoustache"
+                android:visibility="visible"
                 app:srcCompat="@drawable/mustache" />
 
             <ImageView
@@ -87,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageNose"
+                android:visibility="visible"
                 app:srcCompat="@drawable/nose" />
 
             <ImageView
@@ -94,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string imageShoes"
+                android:visibility="visible"
                 app:srcCompat="@drawable/shoes"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp" />
