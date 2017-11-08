@@ -117,3 +117,4 @@ public class Story implements Serializable {
         return text;
     }
 }
+
