@@ -17,7 +17,7 @@
  */
 
 // !YOU MAY WANT TO CHANGE THE PACKAGE BELOW SO THAT IT MATCHES YOUR PROJECT'S PACKAGE!
-package com.example.jebo.jessybosman_pset2;
+package com.example.jebo.jessybosman_pset2  ;
 
 import java.io.*;
 import java.util.*;
