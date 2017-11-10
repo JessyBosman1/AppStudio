@@ -16,8 +16,10 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        InputStream stream = this.getResources().openRawResource(R.raw.madlib1_tarzan);
-        story = new Story(stream);
+        Intent intent = getIntent();
+        story = (Story) intent.getSerializableExtra("Story");
+        //InputStream stream = this.getResources().openRawResource(R.raw.madlib0_simple);
+        //story = new Story(stream);
 
         TextView editText = findViewById(R.id.editText);
         editText.setHint(story.getNextPlaceholder());
@@ -31,17 +33,31 @@ public class QuestionActivity extends AppCompatActivity {
         TextView editText = findViewById(R.id.editText);
         story.fillInPlaceholder(editText.getText().toString());
 
-        if(story.getPlaceholderRemainingCount() != 0) {
+        if (story.getPlaceholderRemainingCount() != 0) {
             editText.setHint(story.getNextPlaceholder());
             editText.setText("");
 
             TextView textviewWordsRemaining = findViewById(R.id.textviewWordsRemaining);
             textviewWordsRemaining.setText(story.getPlaceholderRemainingCount() + " words remaining");
-        }
-        else{
+
+            /*
             Intent intent = new Intent(this, QuestionActivity.class);
+
+            intent.putExtra("Story", story);
+
+            startActivity(intent);
+            finish();
+            */
+
+        } else {
+            Intent intent = new Intent(this, Activity_Result.class);
+
+            intent.putExtra("Story", story.toString());
+
             startActivity(intent);
             finish();
         }
     }
+
+
 }
