@@ -117,7 +117,7 @@ public void SetAdapter() {
     menuItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            mTextView.setText(String.valueOf(adapterView.getItemAtPosition(i)));
+            //mTextView.setText(String.valueOf(adapterView.getItemAtPosition(i)));
             toMenu(String.valueOf(adapterView.getItemAtPosition(i)));
         }
     });
@@ -130,4 +130,8 @@ public void toMenu(String SelectedCategory){
         startActivity(intent);
 }
 
+    public void goToOrder(View view) {
+        Intent intent = new Intent(this, OrderActivity.class);
+        startActivity(intent);
+    }
 }

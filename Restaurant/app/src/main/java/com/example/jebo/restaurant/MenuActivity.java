@@ -1,8 +1,11 @@
 package com.example.jebo.restaurant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,11 +57,13 @@ public class MenuActivity extends AppCompatActivity {
         menuItemListView = (ListView) findViewById(R.id.listView);
         menuItemPriceListView = (ListView) findViewById(R.id.listViewPrices);
         final TextView mTextView = findViewById(R.id.text);
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://resto.mprog.nl/menu";
 
         Intent intent = getIntent();
         final String selectedCategory = (String) intent.getStringExtra("SelectedCategory");
+        mTextView.setText(selectedCategory);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -82,7 +87,7 @@ public class MenuActivity extends AppCompatActivity {
 
                                 //addItemToArrayPrice(menuArray.getJSONObject(i).getString("price"));
                             }
-
+                            SetAdapter();
                         } catch (JSONException e) {
                             e.printStackTrace();
 
@@ -108,14 +113,41 @@ public class MenuActivity extends AppCompatActivity {
     public void addItemToArray(String Item) {
         listItems.add(Item);
 
-        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  R.layout.activity_main, R.id.text, listItems);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, listItems);
-        menuItemListView.setAdapter(arrayAdapter);
     }
     public void addItemToArrayPrice(String Item) {
         listItemsPrice.add(Item);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  R.layout.activity_main, R.id.text, listItemsPrice);
         menuItemPriceListView.setAdapter(arrayAdapter);
+    }
+
+    public void SetAdapter() {
+        final TextView mTextView = findViewById(R.id.text);
+
+        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  R.layout.activity_main, R.id.text, listItems);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, listItems);
+        menuItemListView.setAdapter(arrayAdapter);
+
+        menuItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mTextView.setText(String.valueOf(adapterView.getItemAtPosition(i)));
+                addToOrder(String.valueOf(adapterView.getItemAtPosition(i)));
+
+            }
+        });
+
+    }
+public void addToOrder(String Item){
+    SharedPreferences yourOrderPrefs = this.getSharedPreferences("orderSave", this.MODE_PRIVATE);
+    SharedPreferences.Editor prefsEditor = yourOrderPrefs.edit();
+    prefsEditor.putString(Item, Item);
+    //prefsEditor.putString("name", value);
+    prefsEditor.commit();
+
+}
+    public void goToOrder(View view) {
+        Intent intent = new Intent(this, OrderActivity.class);
+        startActivity(intent);
     }
 
 }
