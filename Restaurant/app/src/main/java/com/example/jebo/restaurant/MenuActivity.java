@@ -3,8 +3,6 @@ package com.example.jebo.restaurant;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,11 +37,14 @@ public class MainActivity extends AppCompatActivity {
         simpleList.setAdapter(arrayAdapter);
     }
 */
-public class MainActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
     public ListView menuItemListView;
+    public ListView menuItemPriceListView;
+
+    String animalList[] = {"Lion","Tiger","Monkey","Elephant","Dog","Cat","Camel"};
 
     public ArrayList<String> listItems = new ArrayList<String>();
-
+    public ArrayList<String> listItemsPrice = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         menuItemListView = (ListView) findViewById(R.id.listView);
-
+        menuItemPriceListView = (ListView) findViewById(R.id.listViewPrices);
         final TextView mTextView = findViewById(R.id.text);
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://resto.mprog.nl/categories";
+        String url ="https://resto.mprog.nl/menu";
+
+        Intent intent = getIntent();
+        final String selectedCategory = (String) intent.getStringExtra("SelectedCategory");
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -69,22 +73,22 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject newObject = (JSONObject) new JSONTokener(response).nextValue();
                             //ArrayList<String> listItems = new ArrayList<String>();
 
-                            menuArray = newObject.getJSONArray("categories");
-                            //mTextView.setText(menuArray.toString());
+                            menuArray = newObject.getJSONArray("items");
                             for (int i = 0; i < menuArray.length(); i++) {
                                 //mTextView.setText(menuArray.getJSONObject(i).getString("name"));
+                                //listItems.add(menuArray.getJSONObject(i).getString("name"));
+                                if(Objects.equals(menuArray.getJSONObject(i).getString("category"), selectedCategory)){
+                                    addItemToArray(menuArray.getJSONObject(i).getString("name"));}
 
-                                //mTextView.setText(menuArray.get(i).toString());
-                                addItemToArray(menuArray.get(i).toString());
-
+                                //addItemToArrayPrice(menuArray.getJSONObject(i).getString("price"));
                             }
-                            SetAdapter();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
 
                         }
                         //mTextView.setText(listItems.toString());
+
                     }
 
                 }, new Response.ErrorListener() {
@@ -103,31 +107,17 @@ public class MainActivity extends AppCompatActivity {
     }
     public void addItemToArray(String Item) {
         listItems.add(Item);
+
+        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  R.layout.activity_main, R.id.text, listItems);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, listItems);
+        menuItemListView.setAdapter(arrayAdapter);
+    }
+    public void addItemToArrayPrice(String Item) {
+        listItemsPrice.add(Item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  R.layout.activity_main, R.id.text, listItemsPrice);
+        menuItemPriceListView.setAdapter(arrayAdapter);
     }
 
-public void SetAdapter() {
-    final TextView mTextView = findViewById(R.id.text);
-
-    //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  R.layout.activity_main, R.id.text, listItems);
-    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, listItems);
-
-    menuItemListView = (ListView) findViewById(R.id.listView);
-    menuItemListView.setAdapter(arrayAdapter);
-
-    menuItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            mTextView.setText(String.valueOf(adapterView.getItemAtPosition(i)));
-            toMenu(String.valueOf(adapterView.getItemAtPosition(i)));
-        }
-    });
-
-}
-public void toMenu(String SelectedCategory){
-        Intent intent = new Intent(this, MenuActivity.class);
-        intent.putExtra("SelectedCategory", SelectedCategory);
-
-        startActivity(intent);
 }
 
-}
+

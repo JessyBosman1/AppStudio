@@ -30,6 +30,15 @@
 
         </ListView>
 
+        <ListView
+            android:id="@+id/listViewPrices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:divider="#000"
+
+            android:dividerHeight="2dp" />
+
     </LinearLayout>
 
 </android.widget.LinearLayout>
