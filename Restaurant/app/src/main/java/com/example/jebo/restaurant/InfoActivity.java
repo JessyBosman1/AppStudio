@@ -1,6 +1,8 @@
 package com.example.jebo.restaurant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +28,7 @@ import java.util.Objects;
 public class InfoActivity extends AppCompatActivity {
     public TextView ItemName;
     public TextView ItemDescription;
+    public TextView ItemPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         ItemName = findViewById(R.id.ItemName);
         ItemDescription = findViewById(R.id.ItemDescription);
+        ItemPrice = findViewById(R.id.ItemPrice);
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://resto.mprog.nl/menu";
@@ -61,6 +65,7 @@ public class InfoActivity extends AppCompatActivity {
                                 if (Objects.equals(menuArray.getJSONObject(i).getString("name"), selectedItem)) {
                                     ItemDescription.setText(menuArray.getJSONObject(i).getString("description"));
                                     addImage(menuArray.getJSONObject(i).getString("image_url"));
+                                    ItemPrice.setText("$" + menuArray.getJSONObject(i).getString("price") + "0");
                                     //addItemToArrayPrice(menuArray.getJSONObject(i).getString("price"));
                                 }
                             }
@@ -94,5 +99,32 @@ public class InfoActivity extends AppCompatActivity {
         Picasso.with(this).load(imgUrl).fit().into(ImageView);
 
     }
+
+    public void addToOrder(View view) {
+        String Item = ItemName.getText().toString();
+        SharedPreferences yourOrderPrefs = this.getSharedPreferences("orderSave", this.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = yourOrderPrefs.edit();
+        prefsEditor.putString(Item, Item);
+        //prefsEditor.putInt(Item + "Price", Integer.parseInt(ItemPrice.getText().toString()));
+        //prefsEditor.putString("name", value);
+        prefsEditor.commit();
+
+        popUp(Item);
     }
+    public void popUp(String Item){
+        AlertDialog alertDialog = new AlertDialog.Builder(
+                InfoActivity.this).create();
+
+        // Setting Dialog Title
+        alertDialog.setTitle("Added to Order:");
+
+        // Setting Dialog Message
+        alertDialog.setMessage(Item);
+
+        // Showing Alert Message
+        alertDialog.show();
+
+
+    }
+}
 

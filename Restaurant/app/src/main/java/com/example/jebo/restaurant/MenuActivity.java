@@ -171,6 +171,7 @@ public void addToOrder(String Item){
 
 
     }
+
     public void goToInfo(String Item){
         Intent intent = new Intent(this, InfoActivity.class);
         intent.putExtra("SelectedItem", Item);
