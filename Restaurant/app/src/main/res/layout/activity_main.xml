@@ -49,10 +49,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Your Order"
+            android:onClick="goToOrder"
+            android:text="Show Order"
             android:textAlignment="center"
             android:textStyle="italic"
-            android:onClick="goToOrder"
             tools:padding="1dp" />
 
     </LinearLayout>

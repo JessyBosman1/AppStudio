@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -29,6 +30,7 @@ public class InfoActivity extends AppCompatActivity {
     public TextView ItemName;
     public TextView ItemDescription;
     public TextView ItemPrice;
+    public TextView ItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class InfoActivity extends AppCompatActivity {
         ItemName = findViewById(R.id.ItemName);
         ItemDescription = findViewById(R.id.ItemDescription);
         ItemPrice = findViewById(R.id.ItemPrice);
+        ItemId = findViewById(R.id.ItemId);
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://resto.mprog.nl/menu";
@@ -67,6 +70,7 @@ public class InfoActivity extends AppCompatActivity {
                                     addImage(menuArray.getJSONObject(i).getString("image_url"));
                                     ItemPrice.setText("$" + menuArray.getJSONObject(i).getString("price") + "0");
                                     //addItemToArrayPrice(menuArray.getJSONObject(i).getString("price"));
+                                    ItemId.setText(menuArray.getJSONObject(i).getString("id"));
                                 }
                             }
 
@@ -102,9 +106,17 @@ public class InfoActivity extends AppCompatActivity {
 
     public void addToOrder(View view) {
         String Item = ItemName.getText().toString();
+
+        Spinner mySpinner= (Spinner) findViewById(R.id.spinner);
+        String SpinnerText = mySpinner.getSelectedItem().toString();
+
         SharedPreferences yourOrderPrefs = this.getSharedPreferences("orderSave", this.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = yourOrderPrefs.edit();
-        prefsEditor.putString(Item, Item);
+        String Input = Item + "," + ItemPrice.getText().toString() + "," + ItemId.getText().toString() + "," + SpinnerText;
+        prefsEditor.putString(Item, Input);
+
+        //String[] array = y.split(",");
+        //ItemName.setText(array[0].toString());
         //prefsEditor.putInt(Item + "Price", Integer.parseInt(ItemPrice.getText().toString()));
         //prefsEditor.putString("name", value);
         prefsEditor.commit();
