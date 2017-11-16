@@ -26,11 +26,12 @@ public class OrderActivity extends AppCompatActivity {
         headerTextView = findViewById(R.id.headerTextView);
         listViewOrders = findViewById(R.id.listViewOrders);
         SharedPreferences yourOrderPrefs = this.getSharedPreferences("orderSave", MODE_PRIVATE);
+        /*
         String i = yourOrderPrefs.getString("Pesto Linguini", null);
         if (i != null){
             headerTextView.setText(i);
 
-        }
+        }*/
 
         Map<String, ?> allEntries = yourOrderPrefs.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {

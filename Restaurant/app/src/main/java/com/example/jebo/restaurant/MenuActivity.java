@@ -1,7 +1,9 @@
 package com.example.jebo.restaurant;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -88,6 +91,7 @@ public class MenuActivity extends AppCompatActivity {
                                 //addItemToArrayPrice(menuArray.getJSONObject(i).getString("price"));
                             }
                             SetAdapter();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
 
@@ -130,9 +134,11 @@ public class MenuActivity extends AppCompatActivity {
         menuItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mTextView.setText(String.valueOf(adapterView.getItemAtPosition(i)));
-                addToOrder(String.valueOf(adapterView.getItemAtPosition(i)));
+                //1m0TextView.setText(String.valueOf(adapterView.getItemAtPosition(i)));
 
+                //addToOrder(String.valueOf(adapterView.getItemAtPosition(i)));
+                //popUp(String.valueOf(adapterView.getItemAtPosition(i)));
+                goToInfo(String.valueOf(adapterView.getItemAtPosition(i)));
             }
         });
 
@@ -148,6 +154,28 @@ public void addToOrder(String Item){
     public void goToOrder(View view) {
         Intent intent = new Intent(this, OrderActivity.class);
         startActivity(intent);
+    }
+
+    public void popUp(String Item){
+        AlertDialog alertDialog = new AlertDialog.Builder(
+                MenuActivity.this).create();
+
+        // Setting Dialog Title
+        alertDialog.setTitle("Added to Order:");
+
+        // Setting Dialog Message
+        alertDialog.setMessage(Item);
+
+        // Showing Alert Message
+        alertDialog.show();
+
+
+    }
+    public void goToInfo(String Item){
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra("SelectedItem", Item);
+        startActivity(intent);
+
     }
 
 }
