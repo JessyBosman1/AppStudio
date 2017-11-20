@@ -59,4 +59,10 @@ public class TodoDatabase extends SQLiteOpenHelper {
         dataBase.update("todos", values, "_id=" + id, null);
     }
 
+    public void delete(long id){
+        SQLiteDatabase dataBase = getWritableDatabase();
+        dataBase.delete("todos","_id="+id,null);
+
+    }
+
 }

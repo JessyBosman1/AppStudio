@@ -83,57 +83,38 @@ public class MainActivity extends AppCompatActivity {
         toDoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 CheckBox complete = view.findViewById(R.id.toDoCheckbox);
+                Cursor overview = database.selectAll();
+                overview.move(position+1);
 
+                int id = overview.getInt(overview.getColumnIndex("_id"));
                 if (complete.isChecked()) {
-                    database.update(i +1 , 0);
+                    database.update(id , 0);
 
                 } else {
-                    database.update(i + 1, 1);
+                    database.update(id, 1);
                 }
                 updateData();
+            }
+
+        });
+
+        toDoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor overview = database.selectAll();
+                overview.move(position+1);
+
+                int _id = overview.getInt(overview.getColumnIndex("_id"));
+                database.delete(_id);
+                updateData();
+                return false;
             }
 
         });
     }
 
     }
-
-    /*
-        public void SetAdapter(Cursor Data) {
-        ListView toDoListView = findViewById(R.id.toDoListView);
-        testTextView = findViewById(R.id.testTextView);
-
-        //toDoListView.setItemsCanFocus(false);
-
-        testTextView.setText("setAdapter");
-        adapter = new TodoAdapter(this, Data);
-        toDoListView.setAdapter(adapter);
-        toDoListView.setOnItemClickListener(new shortPress());
-    }
-
-    public class shortPress implements AdapterView.OnItemClickListener {
-
-
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            CheckBox complete = view.findViewById(R.id.toDoCheckbox);
-            Cursor overview = database.selectAll();
-            overview.move(i + 1);
-            int id = overview.getInt(overview.getColumnIndex("_id"));
-            if (complete.isChecked()) {
-                database.update(id, 0);
-
-            } else {
-                database.update(id, 1);
-            }
-            updateData();
-        }
-
-    }
-}
-
-
-     */
 
