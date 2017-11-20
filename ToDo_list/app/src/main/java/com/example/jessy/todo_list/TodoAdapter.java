@@ -2,6 +2,7 @@ package com.example.jessy.todo_list;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -21,7 +22,7 @@ public class TodoAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return null;
+        return LayoutInflater.from(context).inflate(R.layout.row_todo, viewGroup, false);
     }
 
     @Override
@@ -31,7 +32,11 @@ public class TodoAdapter extends CursorAdapter {
 
         todoTitle.setText(cursor.getString(cursor.getColumnIndex("title")));
         Integer completedValue = cursor.getInt(cursor.getColumnIndex("completed"));
-        if (completedValue == 1){toDoCheckBox.setChecked(true);}
-        else{toDoCheckBox.setChecked(true);}
+        if (completedValue == 1){
+            toDoCheckBox.setChecked(true);
+        }
+        else{
+            toDoCheckBox.setChecked(false);
+        }
     }
 }
