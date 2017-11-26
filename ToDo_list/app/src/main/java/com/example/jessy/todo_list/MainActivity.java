@@ -91,11 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 int id = overview.getInt(overview.getColumnIndex("_id"));
                 if (complete.isChecked()) {
                     database.update(id , 0);
+                    updateData();
 
                 } else {
                     database.update(id, 1);
+                    updateData();
                 }
-                updateData();
+
             }
 
         });
