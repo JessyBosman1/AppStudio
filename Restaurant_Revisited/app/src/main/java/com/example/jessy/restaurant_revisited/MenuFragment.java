@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -101,6 +102,15 @@ public class MenuFragment extends ListFragment {
     }
 
     @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        TodoDatabase db;
+        db = TodoDatabase.getInstance(getContext());
+        //db.insert("Italian Salad",5);
+        db.insert(String.valueOf(l.getItemAtPosition(position)),10);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
 
@@ -111,7 +121,7 @@ public class MenuFragment extends ListFragment {
 }
 
 public void SetAdapter() {
-    Log.d("array", menuList.toString());
+    //Log.d("array", menuList.toString());
     this.setListAdapter(new ArrayAdapter<String>(getContext(),  android.R.layout.simple_list_item_1, menuList));
 
     }
