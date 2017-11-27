@@ -46,7 +46,7 @@ public class CategoriesFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue queue = Volley.newRequestQueue(getContext());
 
         String url = "https://resto.mprog.nl/categories";
 
@@ -112,7 +112,7 @@ public class CategoriesFragment extends ListFragment {
     }
 
     public void SetAdapter() {
-       this.setListAdapter(new ArrayAdapter<String>(getActivity().getApplicationContext(),  android.R.layout.simple_list_item_1, categoryList));
+       this.setListAdapter(new ArrayAdapter<String>(getContext(),  android.R.layout.simple_list_item_1, categoryList));
 
     }
 

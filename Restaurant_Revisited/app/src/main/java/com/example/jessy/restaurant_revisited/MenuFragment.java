@@ -50,7 +50,7 @@ public class MenuFragment extends ListFragment {
         selectedCategory = arguments.getString("category");
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue queue = Volley.newRequestQueue(getContext());
 
         String url = "https://resto.mprog.nl/menu";
 
@@ -112,7 +112,7 @@ public class MenuFragment extends ListFragment {
 
 public void SetAdapter() {
     Log.d("array", menuList.toString());
-    this.setListAdapter(new ArrayAdapter<String>(getActivity().getApplicationContext(),  android.R.layout.simple_list_item_1, menuList));
+    this.setListAdapter(new ArrayAdapter<String>(getContext(),  android.R.layout.simple_list_item_1, menuList));
 
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,5 +28,16 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.showOrder:
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                OrderFragment fragment = new OrderFragment();
+                fragment.show(ft, "dialog");
+        }
+        return super.onOptionsItemSelected(item);
+
+}
 }
 

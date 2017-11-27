@@ -8,8 +8,9 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ListView
-        android:id="@+id/orderListView"
+        android:id="@+id/x"
         android:layout_width="wrap_content"
+        android:textColor="#000000"
         android:layout_height="511dp" />
 
 </FrameLayout>
