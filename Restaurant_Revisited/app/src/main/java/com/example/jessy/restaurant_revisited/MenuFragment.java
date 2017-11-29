@@ -46,6 +46,7 @@ public class MenuFragment extends ListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
         Bundle arguments = this.getArguments();
         selectedCategory = arguments.getString("category");
@@ -106,7 +107,6 @@ public class MenuFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
         TodoDatabase db;
         db = TodoDatabase.getInstance(getContext());
-        //db.insert("Italian Salad",5);
         db.insert(String.valueOf(l.getItemAtPosition(position)),10);
     }
 

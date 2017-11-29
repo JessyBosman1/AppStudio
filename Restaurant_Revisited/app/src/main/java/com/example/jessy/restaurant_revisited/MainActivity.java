@@ -1,5 +1,6 @@
 package com.example.jessy.restaurant_revisited;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
+    private TodoDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +43,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
 }
+    /*
+    public void clearOrder(View view) {
+        database = TodoDatabase.getInstance(getApplicationContext());
+        database.deleteAll();
+
+        OrderFragment OrderFragment = new OrderFragment();
+        OrderFragment.Update();
+
+
+    }*/
 }
 

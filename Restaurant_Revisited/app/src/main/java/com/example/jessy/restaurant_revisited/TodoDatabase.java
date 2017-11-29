@@ -66,4 +66,9 @@ public class TodoDatabase extends SQLiteOpenHelper {
 
     }
 
+    public void deleteAll(){
+        SQLiteDatabase dataBase = getWritableDatabase();
+        dataBase.delete("todos",null,null);
+    }
+
 }
