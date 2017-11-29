@@ -30,11 +30,11 @@ public class TodoAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView todoTitle = view.findViewById(R.id.toDoTitle);
-        TextView OrderAmount = view.findViewById(R.id.textView);
         TextView OrderPrice = view.findViewById(R.id.OrderPriceTextView);
+        TextView OrderAmount = view.findViewById(R.id.textView);
 
         todoTitle.setText(cursor.getString(cursor.getColumnIndex("name")));
-        OrderPrice.setText(cursor.getString(cursor.getColumnIndex("price")));
-        OrderAmount.setText("2x");
+        OrderPrice.setText("€" + cursor.getString(cursor.getColumnIndex("price")) + ",-");
+        OrderAmount.setText(cursor.getString(cursor.getColumnIndex("amount")));
     }
 }

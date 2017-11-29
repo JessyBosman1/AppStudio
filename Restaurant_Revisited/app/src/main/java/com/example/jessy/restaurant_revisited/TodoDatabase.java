@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -28,7 +29,7 @@ public class TodoDatabase extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table todos (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price INTEGER, amount INTEGER);");
+        sqLiteDatabase.execSQL("create table todos (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price Text, amount INTEGER);");
     }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -42,15 +43,40 @@ public class TodoDatabase extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void insert(String name, int price) {
+    public void insert(String name, String price) {
         SQLiteDatabase dataBase = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("name", name);
-        values.put("price", price);
-        values.put("amount", 1);
+        Cursor cursor = dataBase.rawQuery("SELECT * FROM todos WHERE name = '"+ name+ "'",null
+        );
+        Log.d("cursor", "count: "+ cursor.getCount());
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            Integer amount = cursor.getInt(cursor.getColumnIndex("amount"));
+            amount = amount + 1;
 
-        dataBase.insert("todos",null,values);
+            Integer id = cursor.getInt(cursor.getColumnIndex("_id"));
+
+            values.put("name", name);
+            values.put("price", price);
+            values.put("amount", amount);
+
+            Log.d("cursor", "id: "+ cursor.getString(cursor.getColumnIndex("_id")));
+            Log.d("cursor", "id: "+ cursor.getString(cursor.getColumnIndex("name")));
+            Log.d("cursor", "Amount: "+ amount);
+
+            dataBase.update("todos", values,"_id="+id, null);
+        }
+        else{
+
+            values.put("name", name);
+            values.put("price", price);
+            values.put("amount", 1);
+
+            dataBase.insert("todos",null,values);
+        }
+        cursor.close();
+
     }
 
     public void update(long id, int checkBoxValue) {

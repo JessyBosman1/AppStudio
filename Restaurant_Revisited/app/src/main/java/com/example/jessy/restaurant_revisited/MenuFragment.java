@@ -1,6 +1,7 @@
 package com.example.jessy.restaurant_revisited;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -72,8 +74,11 @@ public class MenuFragment extends ListFragment {
                             for (int i = 0; i < menuArray.length(); i++) {
                                 //mTextView.setText(menuArray.getJSONObject(i).getString("name"));
                                 //listItems.add(menuArray.getJSONObject(i).getString("name"));
-                                if(Objects.equals(menuArray.getJSONObject(i).getString("category"), selectedCategory)){
-                                    addItemToArray(menuArray.getJSONObject(i).getString("name"));}
+                                if (Objects.equals(menuArray.getJSONObject(i).getString("category"), selectedCategory)) {
+                                    addItemToArray(menuArray.getJSONObject(i).getString("name"));
+                                    storePrice(menuArray.getJSONObject(i).getString("name"), menuArray.getJSONObject(i).getString("price"));
+
+                                }
 
                                 //addItemToArrayPrice(menuArray.getJSONObject(i).getString("price"));
                             }
@@ -107,7 +112,12 @@ public class MenuFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
         TodoDatabase db;
         db = TodoDatabase.getInstance(getContext());
-        db.insert(String.valueOf(l.getItemAtPosition(position)),10);
+
+
+        SharedPreferences yourOrderPrefs = getContext().getSharedPreferences("PriceStore", getContext().MODE_PRIVATE);
+        String price = yourOrderPrefs.getString(String.valueOf(l.getItemAtPosition(position)), null);
+
+        db.insert(String.valueOf(l.getItemAtPosition(position)), price);
     }
 
     @Override
@@ -117,12 +127,23 @@ public class MenuFragment extends ListFragment {
     }
 
     public void addItemToArray(String Item) {
-    menuList.add(Item);
-}
+        menuList.add(Item);
+    }
 
-public void SetAdapter() {
-    //Log.d("array", menuList.toString());
-    this.setListAdapter(new ArrayAdapter<String>(getContext(),  android.R.layout.simple_list_item_1, menuList));
+    public void SetAdapter() {
+        //Log.d("array", menuList.toString());
+        this.setListAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, menuList));
 
     }
+
+    public void storePrice(String Item, String price) {
+
+        SharedPreferences yourOrderPrefs = getContext().getSharedPreferences("PriceStore", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = yourOrderPrefs.edit();
+        prefsEditor.putString(Item, price);
+
+        prefsEditor.commit();
+
+    }
+
 }
