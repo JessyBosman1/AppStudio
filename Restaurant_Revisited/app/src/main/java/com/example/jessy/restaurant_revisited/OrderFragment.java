@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 public class OrderFragment extends DialogFragment implements View.OnClickListener{
     private TodoAdapter adapter;
     private TodoDatabase db;
+    public float totalPrice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +50,24 @@ public class OrderFragment extends DialogFragment implements View.OnClickListene
         adapter = new TodoAdapter(getContext(), cursor);
 
         list.setAdapter(adapter);
+
+        try {
+            while (cursor.moveToNext()) {
+                String Price = cursor.getString(cursor.getColumnIndex("price"));
+                Float PriceInt = Float.parseFloat(Price);
+
+                String Amount = cursor.getString(cursor.getColumnIndex("amount"));
+                Integer AmountInt = Integer.parseInt(Amount);
+
+                Float totalItemPrice = PriceInt * AmountInt;
+
+                totalPrice += totalItemPrice;
+            }
+        } finally {
+        }
+
+        TextView TotalPriceTextView = view.findViewById(R.id.totalPriceTextView);
+        TotalPriceTextView.setText(Float.toString(totalPrice));
 
         Button clearOrder = view.findViewById(R.id.clearOrder);
         clearOrder.setOnClickListener((View.OnClickListener) this);
@@ -70,6 +90,9 @@ public class OrderFragment extends DialogFragment implements View.OnClickListene
                 adapter.swapCursor(emptyCursor);
 
                 list.setAdapter(adapter);
+
+                TextView TotalPriceTextView = getView().findViewById(R.id.totalPriceTextView);
+                TotalPriceTextView.setText(" ");
                 break;
 
             case(R.id.submitOrder):
@@ -81,6 +104,9 @@ public class OrderFragment extends DialogFragment implements View.OnClickListene
                 adapter.swapCursor(emptyCursor2);
 
                 list2.setAdapter(adapter);
+
+                TextView TotalPriceTextView2 = getView().findViewById(R.id.totalPriceTextView);
+                TotalPriceTextView2.setText(" ");
                 Post(view);
                 break;
 

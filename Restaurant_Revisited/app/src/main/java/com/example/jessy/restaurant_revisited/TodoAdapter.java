@@ -18,6 +18,8 @@ import org.w3c.dom.Text;
  */
 
 public class TodoAdapter extends CursorAdapter {
+
+
     public TodoAdapter(Context context, Cursor cursor) {
         super(context, cursor, R.layout.row_todo);
     }
