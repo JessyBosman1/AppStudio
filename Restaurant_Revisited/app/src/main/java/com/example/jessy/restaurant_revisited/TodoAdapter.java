@@ -32,9 +32,16 @@ public class TodoAdapter extends CursorAdapter {
         TextView todoTitle = view.findViewById(R.id.toDoTitle);
         TextView OrderPrice = view.findViewById(R.id.OrderPriceTextView);
         TextView OrderAmount = view.findViewById(R.id.textView);
+        String Price = cursor.getString(cursor.getColumnIndex("price"));
+        Float PriceInt = Float.parseFloat(Price);
+
+        String Amount = cursor.getString(cursor.getColumnIndex("amount"));
+        Integer AmountInt = Integer.parseInt(Amount);
+
+        Float totalItemPrice = PriceInt * AmountInt;
 
         todoTitle.setText(cursor.getString(cursor.getColumnIndex("name")));
-        OrderPrice.setText("€" + cursor.getString(cursor.getColumnIndex("price")) + ",-");
+        OrderPrice.setText("€" + totalItemPrice.toString() + ",-");
         OrderAmount.setText(cursor.getString(cursor.getColumnIndex("amount")));
     }
 }
