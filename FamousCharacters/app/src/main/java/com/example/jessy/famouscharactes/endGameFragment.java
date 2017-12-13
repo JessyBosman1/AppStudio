@@ -74,7 +74,7 @@ public class endGameFragment extends Fragment{
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    if(dataSnapshot.child("User").child(UserID) != null) {
+                    try{
                         Integer oldHighScore = Integer.parseInt(dataSnapshot.child("User").child(UserID).child("Highscore").getValue().toString());
                         if (oldHighScore < Highscore) {
                             User aUser = new User(Email, Highscore);
@@ -82,11 +82,12 @@ public class endGameFragment extends Fragment{
                             Toast.makeText(getActivity(),"New personal Highscore!",Toast.LENGTH_LONG).show();
                         }
                     }
-                    else{
+                    catch (Exception e){
                         User aUser = new User(Email, Highscore);
                         databaseRef.child("User").child(UserID).setValue(aUser);
                         Toast.makeText(getActivity(),"New personal Highscore!",Toast.LENGTH_LONG).show();
                     }
+
 
                     databaseRef.removeEventListener(this);
 
