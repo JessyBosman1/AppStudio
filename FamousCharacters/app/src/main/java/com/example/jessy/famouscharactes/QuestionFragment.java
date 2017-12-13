@@ -1,7 +1,5 @@
 package com.example.jessy.famouscharactes;
 
-
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -9,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -44,7 +38,10 @@ import java.util.Random;
  */
 public class QuestionFragment extends Fragment implements View.OnClickListener{
     public Integer playerScore = 0;
-    public String currentPerson = "test";
+    public Integer totalTime = 0;
+    public Integer totalCorrect = 0;
+
+    public String currentPerson;
 
     public ArrayList<String> nameList = new ArrayList<String>();
     public ArrayList<Data> dataList = new ArrayList<Data>();
@@ -59,12 +56,15 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
     CountDownTimer timer = new CountDownTimer(30000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-            updateTimerText(millisUntilFinished);
+            try{updateTimerText(millisUntilFinished);}
+            catch (Exception error){Log.d("timerError", error.toString());}
+
         }
 
         @Override
         public void onFinish() {
-            getRandomPerson();
+            totalTime += 30;
+            checkGameState();
         }
     };
 
@@ -102,8 +102,14 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-
         getFromDatabase();
+    }
+
+    @Override
+    public void onDestroyView() {
+        timer.cancel();
+        super.onDestroyView();
+
     }
 
     public void getFromDatabase() {
@@ -123,6 +129,9 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
 
                 }
 
+                myRef.removeEventListener(this);
+
+
                 getRandomPerson();
             }
 
@@ -131,7 +140,9 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
                 // Failed to read value
                 Log.w("dbError", " ", error.toException());
             }
-        });
+        }
+        );
+
     }
 
     public void addToArrays(String name, String image){
@@ -235,61 +246,67 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
     @Override
     // Button onclick methods
     public void onClick(View v) {
+        TextView countDownText = getActivity().findViewById(R.id.countDownText);
         switch (v.getId()) {
             case R.id.buttonOption1:
                 Button buttonOption1 = getActivity().findViewById(R.id.buttonOption1);
+
+
                 if (buttonOption1.getText() == currentPerson){
                     buttonOption1.setBackgroundColor(0xff99cc00);
-                    TextView countDownText = getActivity().findViewById(R.id.countDownText);
                     playerScore += (Integer.parseInt(countDownText.getText().toString()));
-                    timer.cancel();
+                    totalCorrect += 1;
                 }
                 else{
                     buttonOption1.setBackgroundColor(0xffff4444);
                 }
-
+                totalTime += (30 - Integer.parseInt(countDownText.getText().toString()));
                 checkGameState();
                 break;
 
             case R.id.buttonOption2:
                 Button buttonOption2 = getActivity().findViewById(R.id.buttonOption2);
+
                 if (buttonOption2.getText() == currentPerson){
                     buttonOption2.setBackgroundColor(0xff99cc00);
-                    TextView countDownText = getActivity().findViewById(R.id.countDownText);
                     playerScore += (Integer.parseInt(countDownText.getText().toString()));
-                    timer.cancel();
+                    totalTime += (30 - Integer.parseInt(countDownText.getText().toString()));
+                    totalCorrect += 1;
                 }
                 else{
                     buttonOption2.setBackgroundColor(0xffff4444);
                 }
+                totalTime += (30 - Integer.parseInt(countDownText.getText().toString()));
                 checkGameState();
                 break;
 
             case R.id.buttonOption3:
                 Button buttonOption3 = getActivity().findViewById(R.id.buttonOption3);
+
                 if (buttonOption3.getText() == currentPerson){
                     buttonOption3.setBackgroundColor(0xff99cc00);
-                    TextView countDownText = getActivity().findViewById(R.id.countDownText);
                     playerScore += (Integer.parseInt(countDownText.getText().toString()));
-                    timer.cancel();
+                    totalCorrect += 1;
                 }
                 else{
                     buttonOption3.setBackgroundColor(0xffff4444);
                 }
+                totalTime += (30 - Integer.parseInt(countDownText.getText().toString()));
                 checkGameState();
                 break;
 
             case R.id.buttonOption4:
                 Button buttonOption4 = getActivity().findViewById(R.id.buttonOption4);
+
                 if (buttonOption4.getText() == currentPerson){
                     buttonOption4.setBackgroundColor(0xff99cc00);
-                    TextView countDownText = getActivity().findViewById(R.id.countDownText);
                     playerScore += (Integer.parseInt(countDownText.getText().toString()));
-                    timer.cancel();
+                    totalCorrect += 1;
                 }
                 else{
                     buttonOption4.setBackgroundColor(0xffff4444);
                 }
+                totalTime += (30 - Integer.parseInt(countDownText.getText().toString()));
                 checkGameState();
                 break;
         }
@@ -297,6 +314,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
     }
 
     public void checkGameState(){
+        timer.cancel();
         ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
 
         // if the amount of questions is not yet 10, get new question
@@ -305,12 +323,13 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
         }
         // else go to the endgame screen
         else{
-            timer.cancel();
             FragmentManager fm = getActivity().getSupportFragmentManager();
 
             // add playerscore to Bundle, so it is available in the end game fragment.
             Bundle arguments = new Bundle();
             arguments.putInt("playerScore", playerScore);
+            arguments.putInt("totalTime", totalTime);
+            arguments.putInt("totalCorrect", totalCorrect);
 
             endGameFragment fragment = new endGameFragment();
             fragment.setArguments(arguments);
@@ -330,7 +349,5 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
         ft.commit();
 
     }
-
-
-
 }
+

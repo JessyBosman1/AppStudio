@@ -1,12 +1,8 @@
 package com.example.jessy.famouscharactes;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class registerFragment extends Fragment implements View.OnClickListener{
-
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference();
 
@@ -38,8 +32,8 @@ public class registerFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitPerson:
-                TextView inputName = getActivity().findViewById(R.id.textviewName);
-                TextView inputImage = getActivity().findViewById(R.id.textviewImage);
+                TextView inputName = getActivity().findViewById(R.id.textEmail);
+                TextView inputImage = getActivity().findViewById(R.id.textPassword);
                 String name = inputName.getText().toString();
                 String image = inputImage.getText().toString();
                 Person aPerson = new Person(name, image);

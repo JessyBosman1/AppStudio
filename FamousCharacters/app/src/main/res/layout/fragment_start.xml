@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/BackGround"
         android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
@@ -26,6 +27,7 @@
                 android:text="Historical Trivia"
                 android:textAlignment="center"
                 android:textAllCaps="true"
+                android:textColor="@android:color/white"
                 android:textSize="55sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -54,35 +56,113 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5">
+            android:layout_weight="6">
+
+            <TextView
+                android:id="@+id/loginText"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_margin="0dp"
+                android:fontFamily="@font/germania_one"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingActionButton"
                 android:layout_width="66dp"
                 android:layout_height="67dp"
-                android:layout_marginBottom="32dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
                 android:clickable="true"
+                android:focusable="true"
+                android:onClick="goToQuestions"
                 app:backgroundTint="@android:color/holo_green_dark"
                 app:fabSize="mini"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:onClick="goToQuestions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.52"
                 app:srcCompat="@android:drawable/ic_menu_send" />
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="135dp"
+                android:layout_height="65dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_rounded_corners"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:fontFamily="@font/germania_one"
+                android:shadowDx="8"
+                android:text="Login"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/floatingActionButton2"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="OnClick" />
+
+            <Button
+                android:id="@+id/buttonLogout"
+                android:layout_width="135dp"
+                android:layout_height="65dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_rounded_corners"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:fontFamily="@font/germania_one"
+                android:text="Logout"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/floatingActionButton2"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingActionButton2"
                 android:layout_width="66dp"
                 android:layout_height="67dp"
-                android:layout_marginBottom="35dp"
-                android:layout_marginStart="35dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="goToRegister"
                 app:backgroundTint="@android:color/holo_orange_light"
                 app:fabSize="mini"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_preferences" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.54"
+                app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
         </android.support.constraint.ConstraintLayout>
 
