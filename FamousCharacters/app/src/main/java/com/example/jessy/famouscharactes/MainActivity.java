@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
         else{
             buildAlertNotLoggedIt();
         }
-
-
     }
 
     public void startLogin() {
@@ -131,5 +129,11 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    public void goToHighscore(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        HighscoreFragment fragment = new HighscoreFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment, "HighscoreFragment").addToBackStack(null).commit();
+    }
 }
 
