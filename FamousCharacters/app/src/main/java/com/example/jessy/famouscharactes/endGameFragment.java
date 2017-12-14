@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class endGameFragment extends Fragment{
+public class endGameFragment extends Fragment implements View.OnClickListener {
+    // get Firebase user or null if not logged in.
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+    // get dataBase reference to be able to find the database.
     public DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
+    // Initialize variables used to store data from obtained from the game.
     public int finalScore;
     public int totalCorrect;
     public int totalTime;
@@ -33,8 +38,9 @@ public class endGameFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get score from bundle
+        // Get variables from bundle, to obtain scores from last game.
         Bundle bundle = this.getArguments();
+        // Check if bundle exists.
         if (bundle != null) {
             finalScore = bundle.getInt("playerScore", 0);
             totalTime = bundle.getInt("totalTime", 0);
@@ -49,13 +55,19 @@ public class endGameFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_end_game, container, false);
 
+        // Store viewID references from xml to accesable variables.
         TextView textScore = view.findViewById(R.id.textScore);
         TextView textCorrect = view.findViewById(R.id.textCorrect);
         TextView textTime = view.findViewById(R.id.textTime);
 
+        // Set variables to TextViews, and give some extra context text.
         textScore.setText(String.valueOf(finalScore));
         textCorrect.setText(totalCorrect + "/10 correct");
         textTime.setText("In " + String.valueOf(totalTime) + " seconds");
+
+        // Find oontinue button and set onclick listener.
+        Button continueButtonEnd = view.findViewById(R.id.continueButtonEnd);
+        continueButtonEnd.setOnClickListener(this);
 
         checkHighScore();
 
@@ -104,4 +116,19 @@ public class endGameFragment extends Fragment{
 
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.continueButtonEnd:
+                returnToStart();
+        }
+    }
+    public void returnToStart(){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        StartFragment fragment = new StartFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment, "StartFragment");
+        ft.commit();
+    }
 }

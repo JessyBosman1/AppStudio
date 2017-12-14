@@ -1,5 +1,8 @@
 package com.example.jessy.famouscharactes;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -16,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -110,6 +115,9 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
     }
 
     public void getFromDatabase() {
+
+        checkConnection();
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -158,6 +166,15 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
         placeContent(dataList.get(0).name, dataList.get(0).image);
     }
 
+    public void checkConnection(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+        }
+        else {
+            Toast.makeText(getActivity(), "It appears you are not connected to the internet", Toast.LENGTH_LONG).show();
+        }
+    }
 
     public void placeContent(final String name, String image){
         nameListAsked.add(name);
@@ -174,6 +191,8 @@ public class QuestionFragment extends Fragment implements View.OnClickListener{
         final ProgressBar ImageProgressBar = getActivity().findViewById(R.id.ImageProgressBar);
 
         ImageProgressBar.setVisibility(View.VISIBLE);
+
+        checkConnection();
 
         Glide.with(getActivity())
                 .load(image)
