@@ -1,7 +1,5 @@
 package com.example.jessy.famouscharactes;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,45 +66,52 @@ public class endGameFragment extends Fragment implements View.OnClickListener {
         Button continueButtonEnd = view.findViewById(R.id.continueButtonEnd);
         continueButtonEnd.setOnClickListener(this);
 
+        // FUNCTION : see function.
         checkHighScore();
 
         return view;
-
     }
 
+    // Check if highscore exists and updates accordingly if score is higher.
     public void checkHighScore(){
+        // If user exists add Highscore; else do nothing.
         if(user != null) {
+            // get parameters from user and get score of last game.
             final String UserID = user.getUid();
             final String Email = user.getEmail();
             final Integer Highscore = finalScore;
 
+            // get database info.
             databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
+                    // try to get user and his highscore.
                     try{
-                        Integer oldHighScore = Integer.parseInt(dataSnapshot.child("User").child(UserID).child("Highscore").getValue().toString());
+                        Integer oldHighScore = Integer.parseInt(dataSnapshot.child("User")
+                                                                            .child(UserID)
+                                                                            .child("Highscore")
+                                                                            .getValue().toString());
+                        // update highscore and notify on new highscore.
                         if (oldHighScore < Highscore) {
                             User aUser = new User(Email, Highscore);
                             databaseRef.child("User").child(UserID).setValue(aUser);
                             Toast.makeText(getActivity(),"New personal Highscore!",Toast.LENGTH_LONG).show();
                         }
                     }
+                    // Catch because user has no highscore yet, create one.
                     catch (Exception e){
                         User aUser = new User(Email, Highscore);
                         databaseRef.child("User").child(UserID).setValue(aUser);
                         Toast.makeText(getActivity(),"New personal Highscore!",Toast.LENGTH_LONG).show();
                     }
 
-
+                    // remove event on database change listener.
                     databaseRef.removeEventListener(this);
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError error) {
-                    // Failed to read value
+                    // Failed to read value.
                     Log.w("dbError", " ", error.toException());
                 }
             });
@@ -118,13 +122,17 @@ public class endGameFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
+    // Handling onClick events.
     public void onClick(View v) {
         switch (v.getId()) {
+            // Return to Start fragment if continuebutton is pressed.
             case R.id.continueButtonEnd:
                 returnToStart();
         }
     }
+
     public void returnToStart(){
+        // return to start fragment by replacing current fragment in fragment_containter.
         FragmentManager fm = getActivity().getSupportFragmentManager();
         StartFragment fragment = new StartFragment();
         FragmentTransaction ft = fm.beginTransaction();

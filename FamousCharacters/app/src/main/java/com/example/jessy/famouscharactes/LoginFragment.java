@@ -26,14 +26,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
+        // Inflate the layout for this fragment.
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
+        // Get buttons and set onclick listeners.
         Button buttonLogin = view.findViewById(R.id.buttonLogin);
         Button buttonRegister = view.findViewById(R.id.buttonRegister);
-
         buttonLogin.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);
 
@@ -41,6 +39,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    // Detach handler
     public void onDetach() {
         super.onDetach();
     }
@@ -48,53 +47,59 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
     }
 
+    // Function to ADD user to the database.
     public void createUser(final String email, final String password) {
+        // Check if input is nog empty.
         if (email != " " || password != " ") {
+            // create User in Firebase.
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+                                // Create is successful, show Toast.
                                 Log.d("create user", email + " // " + password);
-                                FirebaseUser user = mAuth.getCurrentUser();
                                 showMessage("create successful");
 
                             } else {
+                                // Create failed, Toast Error.
                                 Log.d("create user", "faled" + task.getException());
                                 showMessage(task.getException().toString());
                             }
 
                         }
                     });
-        } else {
+        }
+        else {
+            // If input is empty; Display empty field message.
             showMessage("Error; empty field");
         }
     }
+
+    // Function to LOGIN user.
     public void loginUser(final String email, final String password){
+        // Check if input is nog empty.
         if(email != " " || password != " ") {
+            // Login user with input.
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+                                // Sign in success, Toast successful.
                                 Log.d("login", "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
                                 showMessage("login successful");
 
+                                // Send user back to main menu when succesfully logged in.
                                 FragmentManager fm = getActivity().getSupportFragmentManager();
                                 StartFragment fragment = new StartFragment();
                                 FragmentTransaction ft = fm.beginTransaction();
@@ -105,45 +110,55 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                                 // If sign in fails, display a message to the user.
                                 Log.d("login", "signInWithEmail:failure", task.getException());
                                 showMessage(task.getException().toString());
-
                             }
 
                         }
                     });
-
-        } else{showMessage("Error; empty field");}
+        }
+        else{
+            // If input is empty; Display empty field message.
+            showMessage("Error; empty field");}
     }
 
-public void showMessage(String message){
-        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
-
+    // Function to display a message.
+    public void showMessage(String message){
+            Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
     }
 
     @Override
+    // Handle onClick events.
     public void onClick(View v) {
+        // Find input fields.
         TextView textEmail = getActivity().findViewById(R.id.textEmail);
         TextView textPassword = getActivity().findViewById(R.id.textPassword);
 
+        // Get text from input fields.
         String inputEmail = textEmail.getText().toString();
         String inputPassword = textPassword.getText().toString();
 
         switch (v.getId()) {
+            // If clicked on login button
             case R.id.buttonLogin:
+                // If a field is empty, send empty to trigger exception and messages.
                 if(TextUtils.isEmpty(inputEmail) || TextUtils.isEmpty(inputPassword)) {
                     loginUser(" ", " ");
                     return;
                 }
+                // if both fields are filled, try to login user with input.
                 else{
                     loginUser(inputEmail, inputPassword);
                 }
                 break;
 
+            // If clicked on register button
             case R.id.buttonRegister:
+                // If a field is empty, send empty to trigger exception and messages.
                 if(TextUtils.isEmpty(inputEmail) || TextUtils.isEmpty(inputPassword)) {
                     createUser(" ", " ");
                     return;
                 }
                 else{
+                    // if both fields are filled, try to register user with input.
                     createUser(inputEmail, inputPassword);
                 }
                 break;

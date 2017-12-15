@@ -6,6 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
  * Created by Jessy on 6-12-2017.
  */
 @IgnoreExtraProperties
+// create Person class used in Quiz to link name with corresponding image.
 class Person {
     public String name;
     public String image;

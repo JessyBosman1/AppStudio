@@ -7,6 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 
 @IgnoreExtraProperties
+// create User class used to get Email and Highscore of a user.
 public class User {
     public String Email;
     public Integer Highscore;
