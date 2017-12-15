@@ -1,4 +1,7 @@
 # Famous Characters (Eindopdracht Appstudio)
+[![BCH compliance](https://bettercodehub.com/edge/badge/JessyBosman1/AppStudio?branch=master)](https://bettercodehub.com/)
+
+
 In deze quiz zullen gebruikers worden uitgedaagd aan de hand van een afbeelding te raden wie de afgebeelde persoon is.
 
 De functionaliteiten van de app zijn als volgt:
@@ -17,19 +20,13 @@ De functionaliteiten van de app zijn als volgt:
 
 
 ## Screenshots
-### Firebase
 
+### Main Menu
+![Main menu](screenMain.jpg?raw=true)
 ### Quiz
-
-### Het spel
-
-
-
-## De code
-
-PokeBattler is gemaakt met een database die op FireBase staat, dit was overlegd met Martijn. 
-
-
-![klik hier](/Doc/screen1.jpeg?raw=true)
-
-![BCH compliance](https://bettercodehub.com/edge/badge/vincentdamen/TestingBCH?branch=master)
+![Quiz](screenQuiz.jpg?raw=true)
+![Quiz warning](screenQuizWarning.jpg?raw=true)
+### Login
+![Login](screenLogin.jpg?raw=true)
+### Highscore
+![Highscore](screenHighscore.jpg?raw=true)
