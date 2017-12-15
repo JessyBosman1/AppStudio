@@ -7,7 +7,7 @@ In deze quiz zullen gebruikers worden uitgedaagd aan de hand van een afbeelding 
 De functionaliteiten van de app zijn als volgt:
 
 * Quiz; raad wie de afgebeelde persoon is.
-	* Random gegenereerde fouten antwoorden en volgordes zodat het spel nooit hetzelfde is.
+	* Random gegenereerde foute antwoorden en volgordes zodat het spel nooit hetzelfde is.
 	* 10 vragen per spel, 62 personen totaal. In totaal dus maarliefst 3.9*10<sup>17</sup> mogelijkheden.
 	* Visele feedback of het gegeven antwoord goed of fout is.
 
