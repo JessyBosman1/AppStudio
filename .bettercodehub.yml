@@ -1,0 +1,7 @@
+exclude:
+- /Assignment_Mad_Libs/.*
+- /Assignment_Mr_Potato_head/.*
+- /Restaurant/.*
+- /JavaAssignments/.*
+- /Restaurant_Revisited/.*
+- /ToDo_list/.*
